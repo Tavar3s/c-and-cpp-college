@@ -1,63 +1,10 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-void boneco(int vida) {
-    // Exibe o boneco de acordo com o número de vidas restantes
-    switch (vida) {
-        case 5:
-            printf("  O \n");
-            printf(" /|\\\n");
-            printf(" / \\\n");
-            break;
-        case 4:
-            printf("  O \n");
-            printf(" /|\\\n");
-            printf(" / \n");
-            break;
-        case 3:
-            printf("  O \n");
-            printf(" /|\\\n");
-            printf(" \n");
-            break;
-        case 2:
-            printf("  O \n");
-            printf(" /| \n");
-            printf(" \n");
-            break;
-        case 1:
-            printf("  O \n");
-            printf("  | \n");
-            printf(" \n");
-            break;
-        case 0:
-            printf("  O-- \n");
-            printf(" \n");
-            printf(" \n");
-            break;
-    }
-}
-
-int tamanho(char *str) {
-    // Retorna o tamanho da string
-    int i = 0;
-    while (str[i] != '\0') {
-        i++;
-    }
-    return i;
-}
-
-char minusculo(char letra) {
-    // Converte a letra para minúsculo
-    if (letra >= 'A' && letra <= 'Z') {
-        return letra + 32;
-    }
-    return letra;
-}
-
 int main(void) {
     // Definindo a palavra a ser adivinhada e inicializando variáveis
+    int valor_padrao = 6; // Tamanho da palavra (ALTERAR PARA OUTRAS PALAVRAS DE TAMANHO DIFERENTE!!!)
     char *str = "cavalo"; // (NÃO USE ACENTOS OU CARACTERES ESPECIAIS)
-    int valor_padrao = tamanho(str);
     char *tentativas = NULL; 
     char palavra_formada[valor_padrao]; // Inicializa a palavra formada
     char letra;
@@ -66,7 +13,7 @@ int main(void) {
     for (int i = 0; i < valor_padrao; i++) {
         palavra_formada[i] = '_'; // Inicializa a palavra formada com '_'
     }
-    
+
     // Exibindo o cabeçalho do jogo
     printf("==========================\n");
     printf("       JOGO DA FORCA      \n");
@@ -89,9 +36,6 @@ int main(void) {
             printf("Digite a letra: ");
             scanf(" %c", &letra);
             printf("==========================\n");
-
-            // Converte a letra para minúsculo
-            letra = minusculo(letra);
 
             // Verifica se a letra já foi tentada
             for (int i = 0; i < rodada; i++) {
@@ -117,6 +61,13 @@ int main(void) {
         }
         tentativas[rodada] = letra; 
 
+        // Menu após interação do usuário
+        printf("Vidas atuais: %d\n", vida);
+        printf("Tentativas: ");
+        for (int j = 0; j <= rodada; j++) { 
+            printf("%c ", tentativas[j]);
+        }
+
         // Verifica se a letra está na palavra e troca na palavra formada
         for (int j = 0; j < valor_padrao; j++) {
             for (int k = 0; k <= rodada; k++) { 
@@ -126,31 +77,6 @@ int main(void) {
             }
         }
 
-        // Verifica se o jogador perdeu uma vida
-        int is_same = 1;
-        for (int i = 0; i < valor_padrao; i++) {
-            if (temp_palavra[i] != palavra_formada[i]) {
-                is_same = 0; 
-                break;
-            }
-        }
-
-        if (is_same) {
-            vida--;
-            printf("Você errou! Perdeu uma vida.\n");
-            printf("==========================\n");
-        }
-
-
-        // Menu após interação do usuário
-        printf("Vidas atuais: %d\n", vida);
-        boneco(vida);
-        printf("Tentativas: ");
-        for (int j = 0; j <= rodada; j++) { 
-            printf("%c ", tentativas[j]);
-        }
-
-        
         // Exibe a palavra formada até o momento
         printf("\nPalavra formada: ");
         for (int j = 0; j < valor_padrao; j++) {
@@ -171,6 +97,21 @@ int main(void) {
                 free(tentativas); 
                 return 0;
             }
+        }
+
+        // Verifica se o jogador perdeu uma vida
+        int is_same = 1;
+        for (int i = 0; i < valor_padrao; i++) {
+            if (temp_palavra[i] != palavra_formada[i]) {
+                is_same = 0; 
+                break;
+            }
+        }
+
+        if (is_same) {
+            vida--;
+            printf("==========================\n");
+            printf("Você errou! Perdeu uma vida.\n");
         }
 
         rodada++;

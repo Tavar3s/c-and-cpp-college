@@ -46,14 +46,6 @@ int tamanho(char *str) {
     return i;
 }
 
-char minusculo(char letra) {
-    // Converte a letra para minúsculo
-    if (letra >= 'A' && letra <= 'Z') {
-        return letra + 32;
-    }
-    return letra;
-}
-
 int main(void) {
     // Definindo a palavra a ser adivinhada e inicializando variáveis
     char *str = "cavalo"; // (NÃO USE ACENTOS OU CARACTERES ESPECIAIS)
@@ -89,9 +81,6 @@ int main(void) {
             printf("Digite a letra: ");
             scanf(" %c", &letra);
             printf("==========================\n");
-
-            // Converte a letra para minúsculo
-            letra = minusculo(letra);
 
             // Verifica se a letra já foi tentada
             for (int i = 0; i < rodada; i++) {

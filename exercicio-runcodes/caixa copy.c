@@ -13,12 +13,7 @@ void caixa_eletronico(int saque, int valor[], int notas[]) {
         count++;
     }
 
-    for (int k = 0; k < 4; k++) {
-        if (notas[0] >= 5) {
-        notas[0] -= 5;
-        notas[1] += 1;
-        }
-
+    for (int i = 0; i < 2; i++) {
         if (notas[1] >= 2) {
             notas[1] -= 2;
             notas[2] += 1;
@@ -29,21 +24,19 @@ void caixa_eletronico(int saque, int valor[], int notas[]) {
             notas[3] += 1;
         }
 
-        if (notas[3] >= 2 && notas[2] >= 1) {
-            notas[2] -= 1;
-            notas[3] -= 2;
-            notas[4] += 1;
-        }
 
         if (notas[4] >= 2) {
             notas[4] -= 2;
             notas[5] += 1;
         }
+
+        if (notas[3] >= 2 && notas[2] >= 1) {
+            notas[3] -= 2;
+            notas[2] -= 1;
+            notas[4] += 1;
+        }
     }
 
-    for (int i = 5; i >= 0; i--) {
-        printf("Notas de %d: %d\n", valor[i], notas[i]);
-    }
         
 };
 
@@ -59,6 +52,11 @@ int main(void) {
     }
 
     caixa_eletronico((int)saque, valor, notas);
+
+    
+    for (int i = 5; i >= 0; i--) {
+        printf("Notas de %d: %d\n", valor[i], notas[i]);
+    }
 
     return 0;
 }
