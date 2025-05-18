@@ -1,4 +1,4 @@
-#include <stdio.h>
+#include <iostream>
 #include <string>
 
 class Pessoa {
@@ -7,32 +7,37 @@ class Pessoa {
         int idade;
         std::string endereco;
 
-        // Corrigido o construtor com a lista de inicialização
-        Pessoa(std::string n, int i, std::string e, int c)
-            : nome(n), idade(i), endereco(e), cpf(c) {}
+        Pessoa(std::string n, int i, std::string e, int c): 
+            nome(n), idade(i), endereco(e), cpf(c) {}
 
         std::string getNome() {
             return nome;
         }
 
         int getCpf() {
-            return gc();
+            return pedirSenha();
         }
 
     private:
         int cpf;
 
-        int gc() {
+        int pedirSenha() {
+            std::string temp;
+            std::cout << "Digite a senha: ";
+            std::cin >> temp;
+            std::string senha = "Cavalo_Antonio";
+            if (temp != senha) {
+                std::cout << "Senha incorreta\n";
+                return 0;
+            }
             return cpf;
         }
 };
 
 int main(void) {
-    Pessoa pessoa("João", 30, "Rua A, 123", 123456789);
-    printf("Nome: %s\n", pessoa.getNome().c_str());
-    printf("Idade: %d\n", pessoa.idade);
-    printf("Endereço: %s\n", pessoa.endereco.c_str());
-    printf("CPF: %d\n", pessoa.getCpf());
+    Pessoa ronaldo("Ronaldo", 35, "Rua A", 123456789);
+    std::cout << "Nome: " << ronaldo.getNome() << std::endl;
+    std::cout << "CPF: " << ronaldo.getCpf() << std::endl;
 
     return 0; 
 }
