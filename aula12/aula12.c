@@ -83,15 +83,5 @@ int main() {
         printf("\n");
     }
 
-    for (int i = 0; i < 10; i++) {
-        free(matriz_temperaturas[i]);
-    } free(matriz_temperaturas);
-    for (int i = 0; i < 5; i++) {
-        free(temperaturas_medias[i]);
-    } free(temperaturas_medias);
-    for (int i = 0; i < 10; i++) {
-        free(estado_temperaturas[i]);
-    } free(estado_temperaturas);
-
     return 0;
 }
