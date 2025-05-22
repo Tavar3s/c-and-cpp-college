@@ -1,0 +1,5 @@
+modularização em c
+
+- Quebra do código para melhor legibilidade
+- Funções, compostas de até 20 linhas (Recomendado)
+- Evitar muitas indentação 
