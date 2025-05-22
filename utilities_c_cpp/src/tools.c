@@ -6,3 +6,8 @@ void menu(char* str){
     printf("  %s\n", str);
     printf("=====================\n");
 }
+
+int main() {
+
+    return 0;
+}
