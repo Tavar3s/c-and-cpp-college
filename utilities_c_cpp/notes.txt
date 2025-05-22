@@ -2,4 +2,4 @@ modularização em c
 
 - Quebra do código para melhor legibilidade
 - Funções, compostas de até 20 linhas (Recomendado)
-- Evitar muitas indentação 
+- Evitar muitas indentação e de funcionalidade múltipla
