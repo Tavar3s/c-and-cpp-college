@@ -1,6 +1,8 @@
 #include <stdio.h>
 #include <stdlib.h>
 
+
+// Funções para alocar 
 int** aloca_matriz(int linhas, int colunas) {
     int** matriz = (int**) malloc(linhas * sizeof(int*));
     for (int i = 0; i < linhas; i++) {
@@ -9,6 +11,7 @@ int** aloca_matriz(int linhas, int colunas) {
     return matriz;
 }
 
+// Funções para gerar a imagem e a matriz binária
 void gerar_imagem(int** imagem, int linhas, int colunas, int largura_trilho) {
     int centro_x = colunas / 2;
     int centro_y = linhas / 2;
@@ -37,6 +40,7 @@ void gerar_matriz_binaria(int** matriz_binaria, int linhas, int colunas, int** i
     }
 }
 
+// Função para converter a imagem em ASCII
 void converter_para_ascii(int** imagem, int linhas, int colunas) {
     for (int i = 0; i < linhas; i++) {
         for (int j = 0; j < colunas; j++) {
@@ -53,6 +57,7 @@ void converter_para_ascii(int** imagem, int linhas, int colunas) {
     }
 }
 
+// Função para detectar caminhos
 int detectar_caminhos(int** matriz_binaria, int linhas, int colunas) {
     int caminhos = 0;
     int temp = 0;
@@ -72,6 +77,7 @@ int detectar_caminhos(int** matriz_binaria, int linhas, int colunas) {
     return caminhos;
 }
 
+// Função para encontrar a posição inicial do caminho
 int* posicao_inicial_caminho(int** matriz_binaria, int linhas, int colunas, int tamanho_vetor) {
     if (colunas < 10) {
         return NULL;
@@ -99,6 +105,7 @@ int* posicao_inicial_caminho(int** matriz_binaria, int linhas, int colunas, int 
     return vetor;
 }
 
+// Função principal
 int main(void) {
     // Definindo variáveis
     int linhas, colunas, largura_trilho, caminhos;
@@ -106,20 +113,22 @@ int main(void) {
     int** matriz_binaria = NULL;
     void* posicao = NULL;
 
-    // Lendo os parâmetros de entrada
+    // Lendo os parâmetros de entrada e tratando erros
     scanf("%d %d %d", &linhas, &colunas, &largura_trilho);
-    if (linhas <= 0 || colunas <= 0 || largura_trilho <= 0) {
-        fprintf(stderr, "Erro: Dimensões inválidas.\n");
+
+    if (linhas >=0 && colunas >= 0 && linhas <= 32 && colunas <= 32) {
+        // Alocando memória para as matrizes
+        matriz_binaria = aloca_matriz(linhas, colunas);
+        imagem = aloca_matriz(linhas, colunas);
+
+        // Gerando a imagem e a matriz binária
+        gerar_imagem(imagem, linhas, colunas, largura_trilho);
+        gerar_matriz_binaria(matriz_binaria, linhas, colunas, imagem);
+        
+    } else {
         return 1;
     }
-
-    // Alocando memória para as matrizes
-    matriz_binaria = aloca_matriz(linhas, colunas);
-    imagem = aloca_matriz(linhas, colunas);
-
-    // Gerando a imagem e a matriz binária
-    gerar_imagem(imagem, linhas, colunas, largura_trilho);
-    gerar_matriz_binaria(matriz_binaria, linhas, colunas, imagem);
+    
 
     // Exibindo a imagem
     for (int i = 0; i < linhas; i++) {
