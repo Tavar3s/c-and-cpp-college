@@ -93,7 +93,7 @@ int* posicao_inicial_caminho(int** matriz_binaria, int linhas, int colunas, int 
                 count++;
                 break;
             }
-        } 
+        } temp = 0;
     }
     
     return vetor;
