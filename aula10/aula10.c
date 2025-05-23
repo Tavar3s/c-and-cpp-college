@@ -56,7 +56,7 @@ char minusculo(char letra) {
 
 int main(void) {
     // Definindo a palavra a ser adivinhada e inicializando variáveis
-    char *str = "cavalo"; // (NÃO USE ACENTOS OU CARACTERES ESPECIAIS)
+    char *str = "hexagono"; // (NÃO USE ACENTOS OU CARACTERES ESPECIAIS)
     int valor_padrao = tamanho(str);
     char *tentativas = NULL; 
     char palavra_formada[valor_padrao]; // Inicializa a palavra formada
