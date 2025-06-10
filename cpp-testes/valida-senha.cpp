@@ -2,8 +2,6 @@
 #include <string>
 #include <cctype>
 
-
-
 int main() {
     int vezes = 0;
     std::cout << "Validador de Senhas" << std::endl;
