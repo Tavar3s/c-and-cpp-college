@@ -1,9 +1,9 @@
 file(REMOVE_RECURSE
-  "CMakeFiles/HelloWorld.dir/main.c.obj"
-  "CMakeFiles/HelloWorld.dir/main.c.obj.d"
-  "HelloWorld.exe"
-  "HelloWorld.exe.manifest"
-  "HelloWorld.pdb"
+  "C:/Users/Usuario/c-and-cpp-college/cmake-teste/bin/HelloWorld.exe"
+  "C:/Users/Usuario/c-and-cpp-college/cmake-teste/bin/HelloWorld.exe.manifest"
+  "C:/Users/Usuario/c-and-cpp-college/cmake-teste/bin/HelloWorld.pdb"
+  "CMakeFiles/HelloWorld.dir/source/main.c.obj"
+  "CMakeFiles/HelloWorld.dir/source/main.c.obj.d"
   "libHelloWorld.dll.a"
 )
 

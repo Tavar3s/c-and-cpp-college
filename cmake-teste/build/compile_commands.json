@@ -1,0 +1,8 @@
+[
+{
+  "directory": "C:/Users/Usuario/c-and-cpp-college/cmake-teste/build",
+  "command": "C:\\msys64\\mingw64\\bin\\gcc.exe   -g -std=gnu11 -o CMakeFiles\\HelloWorld.dir\\source\\main.c.obj -c C:\\Users\\Usuario\\c-and-cpp-college\\cmake-teste\\source\\main.c",
+  "file": "C:/Users/Usuario/c-and-cpp-college/cmake-teste/source/main.c",
+  "output": "CMakeFiles/HelloWorld.dir/source/main.c.obj"
+}
+]
