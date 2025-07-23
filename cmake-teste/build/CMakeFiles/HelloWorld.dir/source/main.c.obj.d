@@ -86,4 +86,7 @@ CMakeFiles/HelloWorld.dir/source/main.c.obj: \
  C:/msys64/mingw64/include/SDL3/SDL_version.h \
  C:/msys64/mingw64/include/SDL3/SDL_oldnames.h \
  C:/msys64/mingw64/include/SDL3/SDL_main.h \
- C:/msys64/mingw64/include/SDL3/SDL_main_impl.h
+ C:/msys64/mingw64/include/SDL3/SDL_main_impl.h \
+ C:/msys64/mingw64/include/SDL3_ttf/SDL_ttf.h \
+ C:/msys64/mingw64/include/stdio.h \
+ C:/msys64/mingw64/include/sec_api/stdio_s.h

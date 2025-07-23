@@ -10,8 +10,7 @@ if (NOT SDL3_FOUND)
     message(FATAL_ERROR "Erro: SDL3 não foi encontrado. Verifique sua instalação do MSYS2/MinGW e se o CMAKE_PREFIX_PATH está correto.")
 endif()
 
-find_package(SDL3_ttf 3.0 QUIET) # QUIET evita que o find_package imprima muita coisa se não achar
-
+find_package(SDL3_ttf)
 if (SDL3_TTF_FOUND)
     # Se encontrou, imprime o status e as variáveis que o find_package preencheu
     message(STATUS "SDL3_ttf encontrado com sucesso!")
@@ -38,6 +37,9 @@ target_link_libraries(HelloWorld PUBLIC
 target_include_directories(HelloWorld PUBLIC
     ${SDL3_INCLUDE_DIRS}
 ) # Define os arquivos para incluir
+
+
+target_link_libraries(HelloWorld PRIVATE SDL3_ttf::SDL3_ttf)
 
 add_custom_command(TARGET HelloWorld POST_BUILD
     COMMAND ${CMAKE_COMMAND} -E copy_if_different

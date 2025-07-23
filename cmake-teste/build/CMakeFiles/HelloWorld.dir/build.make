@@ -91,6 +91,7 @@ HelloWorld_EXTERNAL_OBJECTS =
 
 C:/Users/Usuario/c-and-cpp-college/cmake-teste/bin/HelloWorld.exe: CMakeFiles/HelloWorld.dir/source/main.c.obj
 C:/Users/Usuario/c-and-cpp-college/cmake-teste/bin/HelloWorld.exe: CMakeFiles/HelloWorld.dir/build.make
+C:/Users/Usuario/c-and-cpp-college/cmake-teste/bin/HelloWorld.exe: C:/msys64/mingw64/lib/libSDL3_ttf.dll.a
 C:/Users/Usuario/c-and-cpp-college/cmake-teste/bin/HelloWorld.exe: C:/msys64/mingw64/lib/libSDL3.dll.a
 C:/Users/Usuario/c-and-cpp-college/cmake-teste/bin/HelloWorld.exe: CMakeFiles/HelloWorld.dir/linkLibs.rsp
 C:/Users/Usuario/c-and-cpp-college/cmake-teste/bin/HelloWorld.exe: CMakeFiles/HelloWorld.dir/objects1.rsp

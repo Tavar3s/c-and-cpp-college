@@ -1,10 +1,14 @@
 #define SDL_MAIN_USE_CALLBACKS 1  /* use the callbacks instead of main() */
 #include <SDL3/SDL.h>
 #include <SDL3/SDL_main.h>
+#include <SDL3_ttf/SDL_ttf.h>
+#include <stdio.h>
 
 /* We will use this renderer to draw into this window every frame. */
 static SDL_Window *window = NULL;
 static SDL_Renderer *renderer = NULL;
+static TTF_Font *font = NULL;
+static SDL_Texture *texture = NULL;
 
 /* This function runs once at startup. */
 SDL_AppResult SDL_AppInit(void **appstate, int argc, char *argv[])
@@ -18,6 +22,30 @@ SDL_AppResult SDL_AppInit(void **appstate, int argc, char *argv[])
 
     if (!SDL_CreateWindowAndRenderer("examples/renderer/clear", 640, 480, 0, &window, &renderer)) {
         SDL_Log("Couldn't create window/renderer: %s", SDL_GetError());
+        return SDL_APP_FAILURE;
+    }
+
+    if (!TTF_Init()) {
+        SDL_Log("Couldn't initialize SDL_ttf: %s", SDL_GetError());
+        return SDL_APP_FAILURE;
+    }
+
+    font = TTF_OpenFont("./font/CourierPrime-Regular.ttf", 24);
+    if (!font) {
+        SDL_Log("Couldn't load font: %s", SDL_GetError());
+        return SDL_APP_FAILURE;
+    }
+
+    SDL_Surface *surface = TTF_RenderText_Blended(font, "Hello, World!", 0, (SDL_Color){255, 255, 255, 255});
+    if (!surface) {
+        SDL_Log("Couldn't render text: %s", SDL_GetError());
+        return SDL_APP_FAILURE;
+    }
+    texture = SDL_CreateTextureFromSurface(renderer, surface);
+    SDL_DestroySurface(surface);
+    surface = NULL;
+    if (!texture) {
+        SDL_Log("Couldn't create texture from surface: %s", SDL_GetError());
         return SDL_APP_FAILURE;
     }
 
@@ -55,5 +83,5 @@ SDL_AppResult SDL_AppIterate(void *appstate)
 /* This function runs once at shutdown. */
 void SDL_AppQuit(void *appstate, SDL_AppResult result)
 {
-    /* SDL will clean up the window/renderer for us. */
+
 }

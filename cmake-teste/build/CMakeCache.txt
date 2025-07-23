@@ -274,6 +274,12 @@ SDL3_DIR:PATH=C:/msys64/mingw64/lib/cmake/SDL3
 //The directory containing a CMake configuration file for SDL3_ttf.
 SDL3_ttf_DIR:PATH=C:/msys64/mingw64/lib/cmake/SDL3_ttf
 
+//Path to a file.
+SDL_TTF_INCLUDE_DIR:PATH=SDL_TTF_INCLUDE_DIR-NOTFOUND
+
+//Path to a library.
+SDL_TTF_LIBRARY:FILEPATH=SDL_TTF_LIBRARY-NOTFOUND
+
 //Extra compile flags of harfbuzz
 harfbuzz_COMPILE_OPTIONS:STRING=
 
@@ -507,6 +513,10 @@ PC_HARFBUZZ_harfbuzz_VERSION:INTERNAL=
 PKG_CONFIG_ARGN-ADVANCED:INTERNAL=1
 //ADVANCED property for variable: PKG_CONFIG_EXECUTABLE
 PKG_CONFIG_EXECUTABLE-ADVANCED:INTERNAL=1
+//ADVANCED property for variable: SDL_TTF_INCLUDE_DIR
+SDL_TTF_INCLUDE_DIR-ADVANCED:INTERNAL=1
+//ADVANCED property for variable: SDL_TTF_LIBRARY
+SDL_TTF_LIBRARY-ADVANCED:INTERNAL=1
 //linker supports push/pop state
 _CMAKE_LINKER_PUSHPOP_STATE_SUPPORTED:INTERNAL=TRUE
 __pkg_config_arguments_PC_HARFBUZZ:INTERNAL=QUIET;harfbuzz
