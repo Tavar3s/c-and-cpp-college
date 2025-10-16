@@ -5,7 +5,6 @@ using namespace std;
 double integralt(float a, float b, float h) {
     double integral = 0.0;
     for (float x = a; x < b; x += h) {
-        cout << x << endl;
         integral += (1 / (1 + x * x) + 1 / (1 + (x+h)*(x+h)))/2 * h;
     }
     return integral;

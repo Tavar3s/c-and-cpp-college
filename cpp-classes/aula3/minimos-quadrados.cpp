@@ -11,7 +11,7 @@ long double soma(int n, float* x) {
 long double soma_produto(int n, float* y, float* x) {
     long double soma = 0;
     for (int i = 0; i < n; i++) {
-        soma += x[i]+y[i];
+        soma += (x[i]*y[i]);
     }
     return soma;
 }
@@ -29,15 +29,15 @@ long double valor_a(int n, float* x, float* y) {
 }
 
 long double valor_b(int n, float* x, float* y) {
-    return (soma(n, x)*soma_quadrado(n, x) - soma(n, x) * soma_produto(n, y, x))/(n * soma_quadrado(n, x) - soma(n, x) * soma(n, x));
+    return (soma(n, y) * soma_quadrado(n, x) - soma(n, x) * soma_produto(n, y, x))/(n * soma_quadrado(n, x) - soma(n, x) * soma(n, x));
 }
 
 using namespace std;
 
 int main() {
     int n = 6;
-    float x[n] = {1, 2, 3, 4, 5, 6};
-    float y[n] = {2.2, 2.8, 3.6, 4.5, 5.1, 5.9};
+    float x[n] = {4, 6, 7, 5, 8, 10};
+    float y[n] = {15, 18, 19, 20, 21, 23};
     long double a, b;
     
     a = valor_a(n, x, y);
