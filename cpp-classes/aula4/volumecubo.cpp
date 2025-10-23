@@ -12,6 +12,7 @@ class Cubo {
 
         ~Cubo() {
             cout << "Destruindo cubo!" << endl;
+            cout << "-=-=-=-=-=-=-=-=" << endl;
         }
 
         virtual double volume() {
@@ -30,7 +31,7 @@ class Esfera: public Cubo {
             cout << "Destruindo esfera!" << endl;
         }
 
-        double volume() override {
+        virtual double volume() override {
             return (4.0/3.0) * M_PI * lado * lado * lado;
         }
 };
@@ -45,6 +46,7 @@ class Cone: public Esfera {
         }
 
         ~Cone() {
+            cout << "-=-=-=-=-=-=-=-=" << endl;
             cout << "Destruindo cone!" << endl;
         }
 
@@ -54,9 +56,14 @@ class Cone: public Esfera {
 };
 
 int main() {
-    Cubo cubo(5);
-    Esfera esfera(3);
-    Cone cone(3, 5);
+    float lado, raio, altura;
+
+    cout << "Digite o lado do cubo, o raio da esfera e a altura do cone: " << endl;
+    cin >> lado >> raio >> altura;
+
+    Cubo cubo(lado);
+    Esfera esfera(raio);
+    Cone cone(raio, altura);
 
     cout << "Volume do cubo: " << cubo.volume() << endl;
     cout << "Volume da esfera: " << esfera.volume() << endl;
