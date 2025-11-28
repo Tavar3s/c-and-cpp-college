@@ -5,22 +5,27 @@ class MatrizEsparsa {
         int linhas;
         int colunas;
         float** matriz;
-        int capacidade = 2;
-        int contador = 0;
+
+        // Variáveis para armazenar a matriz comprimida
         int* linha_valores = new int[capacidade];
         int* coluna_valores = new int[capacidade];
         float* valores = new float[capacidade];
+        int capacidade = 2;
+        int contador = 0;
 
         MatrizEsparsa(int lin, int col) {
+            // Verificação de dimensão válida
             if (lin <= 0 || col <= 0) {
                 throw std::invalid_argument("Dimensoes invalidas");
             }
             linhas = lin;
             colunas = col;
-            matriz = new int*[linhas];
+            matriz = new float*[linhas];
             for (int i = 0; i < linhas; i++) {
-                matriz[i] = new int[colunas];
+                matriz[i] = new float[colunas];
             }
+
+            // Lógica para popular matriz que garante ser uma matriz esparsa para ordem maior que 2
             for (int i = 0; i < linhas; i++) {
                 for (int j = 0; j < colunas; j++) {
                     if (i == j) matriz[i][j] = i * j;
@@ -37,20 +42,23 @@ class MatrizEsparsa {
                 delete[] matriz[i];
             }
             delete[] matriz;
+            std::cout << "=-=-=-=-=-=-=-=-=-=-=-=-==-" << std::endl;
             std::cout << "Matriz liberada da memoria." << std::endl;
         }
 
         void imprimirMatriz() {
+            std::cout << "=-=-=-=-=-=-=-=-=-=-=-=-==-" << std::endl;
             for (int i = 0; i < linhas; i++) {
                 for (int j = 0; j < colunas; j++) {
                     std::cout << matriz[i][j] << " ";
                 }
                 std::cout << std::endl;
             }
+            std::cout << "=-=-=-=-=-=-=-=-=-=-=-=-==-" << std::endl;
         }
 
         void imprimirCompressao() {
-            std::cout << "\nTotal de elementos nao-zero: " << contador << std::endl;
+            std::cout << "Total de elementos nao-zero: " << contador << std::endl;
             for (int i = 0; i < contador; i++) {
                 std::cout << "Linha: " << linha_valores[i]
                           << " Coluna: " << coluna_valores[i]
@@ -59,12 +67,6 @@ class MatrizEsparsa {
         }
 
         void comprimirMatriz() {
-            int capacidade = 2;
-            contador = 0;
-            linha_valores = new int[capacidade];
-            coluna_valores = new int[capacidade];
-            valores = new float[capacidade];
-
             for (int i = 0; i < linhas; i++) {
                 for (int j = 0; j < colunas; j++) {
                     if (matriz[i][j] != 0) {
@@ -97,88 +99,53 @@ class MatrizEsparsa {
                 }
             }
         }
+
+        float** descomprimirMatriz() {
+            int contador_descomprimir = 0;
+            float** matriz_descomprimida = new float*[linhas];
+            for (int i = 0; i < linhas; i++) {
+                matriz_descomprimida[i] = new float[colunas];
+            }
+
+            for (int i = 0; i < linhas; i++) {
+                for (int j = 0; j < colunas; j++) {
+                    if (linha_valores[contador_descomprimir] == i &&
+                        coluna_valores[contador_descomprimir] == j) {
+                        matriz_descomprimida[i][j] = valores[contador_descomprimir];
+                        contador_descomprimir++;
+                    } else {
+                        matriz_descomprimida[i][j] = 0;
+                    }
+                }
+            }
+
+            return matriz_descomprimida;
+        }
 };
 
 int main() {
     int linhas = 10;
     int colunas = 25;
+    float** matriz_descomprimida_da_main;
 
-    // aloca matriz dinamicamente
-    int** matriz = new int*[linhas];
-    for (int i = 0; i < linhas; i++) {
-        matriz[i] = new int[colunas];
-    }
+    // Criando objeto MatrizEsparsa
+    MatrizEsparsa matriz(linhas, colunas);
 
-    // preenche e imprime a matriz
+    // Chamando funções do objeto MatrizEsparsa
+    matriz.imprimirMatriz();
+    matriz.comprimirMatriz();
+    matriz.imprimirCompressao();
+
+    std::cout << "=-=-=-=-=-=-=-=-=-=-=-=-==-" << std::endl;
+    matriz_descomprimida_da_main = matriz.descomprimirMatriz();
+
+    // Imprimindo matriz descomprimida
     for (int i = 0; i < linhas; i++) {
         for (int j = 0; j < colunas; j++) {
-            if (i == j) matriz[i][j] = i * j;
-            else matriz[i][j] = 0;
-            std::cout << matriz[i][j] << " ";
+            std::cout << matriz_descomprimida_da_main[i][j] << " ";
         }
         std::cout << std::endl;
     }
-
-    // começar com capacidade > 0
-    int capacidade = 2;
-    int contador = 0;
-    int* linha_valores = new int[capacidade];
-    int* coluna_valores = new int[capacidade];
-    float* valores = new float[capacidade];
-
-    // compressão: coleta elementos não-zero
-    for (int i = 0; i < linhas; i++) {
-        for (int j = 0; j < colunas; j++) {
-            if (matriz[i][j] != 0) {
-                if (contador >= capacidade) {
-                    // dobra a capacidade
-                    int nova_cap = capacidade * 2;
-                    int* linha_temp = new int[nova_cap];
-                    int* coluna_temp = new int[nova_cap];
-                    float* valores_temp = new float[nova_cap];
-
-                    // copia os existentes
-                    for (int k = 0; k < contador; k++) {
-                        linha_temp[k] = linha_valores[k];
-                        coluna_temp[k] = coluna_valores[k];
-                        valores_temp[k] = valores[k];
-                    }
-
-                    // libera os antigos e substitui
-                    delete[] linha_valores;
-                    delete[] coluna_valores;
-                    delete[] valores;
-                    linha_valores = linha_temp;
-                    coluna_valores = coluna_temp;
-                    valores = valores_temp;
-                    capacidade = nova_cap;
-                }
-
-                // adiciona novo elemento
-                linha_valores[contador] = i;
-                coluna_valores[contador] = j;
-                valores[contador] = static_cast<float>(matriz[i][j]);
-                contador++;
-            }
-        }
-    }
-
-    // imprime listas (usa contador, não capacidade)
-    std::cout << "\nTotal de elementos nao-zero: " << contador << std::endl;
-    for (int i = 0; i < contador; i++) {
-        std::cout << "Linha: " << linha_valores[i]
-                  << " Coluna: " << coluna_valores[i]
-                  << " Valor: " << valores[i] << std::endl;
-    }
-
-    // libera memória
-    delete[] linha_valores;
-    delete[] coluna_valores;
-    delete[] valores;
-    for (int i = 0; i < linhas; i++) {
-        delete[] matriz[i];
-    }
-    delete[] matriz;
 
     return 0;
 }
