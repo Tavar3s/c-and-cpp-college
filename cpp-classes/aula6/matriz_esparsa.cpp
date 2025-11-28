@@ -1,20 +1,28 @@
 #include <iostream>
 
+// Cria estrutura para uma lista encadeada
+struct No {
+    int linha;
+    int coluna;
+    float valor;
+    No* proximo;
+
+    No(int l, int c, float v) : linha(l), coluna(c), valor(v), proximo(nullptr) {}
+};
+
+// Classe para matriz esparsa
 class MatrizEsparsa {
+    private:
+        No* inicio;
+        int tamanho;
+
     public:
         int linhas;
         int colunas;
         float** matriz;
 
-        // Variáveis para armazenar a matriz comprimida
-        int* linha_valores = new int[capacidade];
-        int* coluna_valores = new int[capacidade];
-        float* valores = new float[capacidade];
-        int capacidade = 2;
-        int contador = 0;
-
         MatrizEsparsa(int lin, int col) {
-            // Verificação de dimensão válida
+            // Valida as dimensões passadas
             if (lin <= 0 || col <= 0) {
                 throw std::invalid_argument("Dimensoes invalidas");
             }
@@ -25,19 +33,26 @@ class MatrizEsparsa {
                 matriz[i] = new float[colunas];
             }
 
-            // Lógica para popular matriz que garante ser uma matriz esparsa para ordem maior que 2
+            // Lógica para preencher a matriz e garante que seja esparsa
             for (int i = 0; i < linhas; i++) {
                 for (int j = 0; j < colunas; j++) {
                     if (i == j) matriz[i][j] = i * j;
                     else matriz[i][j] = 0;
                 }
             }
+
+            inicio = nullptr;
+            tamanho = 0;
         }
 
         ~MatrizEsparsa() {
-            delete[] linha_valores;
-            delete[] coluna_valores;
-            delete[] valores;
+            // Lógica para apagar a lista encadeada e a matriz
+            No* atual = inicio;
+            while (atual != nullptr) {
+                No* temp = atual;
+                atual = atual->proximo;
+                delete temp;
+            }
             for (int i = 0; i < linhas; i++) {
                 delete[] matriz[i];
             }
@@ -58,11 +73,13 @@ class MatrizEsparsa {
         }
 
         void imprimirCompressao() {
-            std::cout << "Total de elementos nao-zero: " << contador << std::endl;
-            for (int i = 0; i < contador; i++) {
-                std::cout << "Linha: " << linha_valores[i]
-                          << " Coluna: " << coluna_valores[i]
-                          << " Valor: " << valores[i] << std::endl;
+            std::cout << "Total de elementos nao-zero: " << tamanho << std::endl;
+            No* atual = inicio;
+            while (atual != nullptr) {
+                std::cout << "Linha: " << atual->linha
+                          << " Coluna: " << atual->coluna
+                          << " Valor: " << atual->valor << std::endl;
+                atual = atual->proximo;
             }
         }
 
@@ -70,53 +87,39 @@ class MatrizEsparsa {
             for (int i = 0; i < linhas; i++) {
                 for (int j = 0; j < colunas; j++) {
                     if (matriz[i][j] != 0) {
-                        if (contador >= capacidade) {
-                            int nova_cap = capacidade * 2;
-                            int* linha_temp = new int[nova_cap];
-                            int* coluna_temp = new int[nova_cap];
-                            float* valores_temp = new float[nova_cap];
-
-                            for (int k = 0; k < contador; k++) {
-                                linha_temp[k] = linha_valores[k];
-                                coluna_temp[k] = coluna_valores[k];
-                                valores_temp[k] = valores[k];
+                        // Cria um novo nó para cada elemento diferente de zero
+                        No* novoNo = new No(i, j, matriz[i][j]);
+                        
+                        if (inicio == nullptr) {
+                            inicio = novoNo;
+                        } else {
+                            No* atual = inicio;
+                            while (atual->proximo != nullptr) {
+                                atual = atual->proximo;
                             }
-
-                            delete[] linha_valores;
-                            delete[] coluna_valores;
-                            delete[] valores;
-                            linha_valores = linha_temp;
-                            coluna_valores = coluna_temp;
-                            valores = valores_temp;
-                            capacidade = nova_cap;
+                            atual->proximo = novoNo;
                         }
-
-                        linha_valores[contador] = i;
-                        coluna_valores[contador] = j;
-                        valores[contador] = static_cast<float>(matriz[i][j]);
-                        contador++;
+                        tamanho++;
                     }
                 }
             }
         }
 
         float** descomprimirMatriz() {
-            int contador_descomprimir = 0;
+            // Cria uma matriz temporária nula
             float** matriz_descomprimida = new float*[linhas];
             for (int i = 0; i < linhas; i++) {
                 matriz_descomprimida[i] = new float[colunas];
+                for (int j = 0; j < colunas; j++) {
+                    matriz_descomprimida[i][j] = 0;
+                }
             }
 
-            for (int i = 0; i < linhas; i++) {
-                for (int j = 0; j < colunas; j++) {
-                    if (linha_valores[contador_descomprimir] == i &&
-                        coluna_valores[contador_descomprimir] == j) {
-                        matriz_descomprimida[i][j] = valores[contador_descomprimir];
-                        contador_descomprimir++;
-                    } else {
-                        matriz_descomprimida[i][j] = 0;
-                    }
-                }
+            // Preenche a matriz temporária com os valores da lista encadeada
+            No* atual = inicio;
+            while (atual != nullptr) {
+                matriz_descomprimida[atual->linha][atual->coluna] = atual->valor;
+                atual = atual->proximo;
             }
 
             return matriz_descomprimida;
@@ -124,8 +127,8 @@ class MatrizEsparsa {
 };
 
 int main() {
-    int linhas = 10;
-    int colunas = 25;
+    int linhas = 10; // Definindo número de linhas da matriz esparsa
+    int colunas = 25; // Definindo número de colunas da matriz esparsa
     float** matriz_descomprimida_da_main;
 
     // Criando objeto MatrizEsparsa
@@ -146,6 +149,12 @@ int main() {
         }
         std::cout << std::endl;
     }
+
+    // Liberando memória da matriz descomprimida
+    for (int i = 0; i < linhas; i++) {
+        delete[] matriz_descomprimida_da_main[i];
+    }
+    delete[] matriz_descomprimida_da_main;
 
     return 0;
 }
